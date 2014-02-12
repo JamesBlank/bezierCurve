@@ -1,4 +1,4 @@
-function drawBezier(x1, y1, x2, y2, optionsUser) {
+function curveBezier(x1, y1, x2, y2, optionsUser) {
 
     //default options
     var options = {
