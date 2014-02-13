@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    <canvas id="js-canvas" width="300" heigth="300"></canvas>
+
+</body>
+
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript">
+
+    var options = {
+        color: 'red',
+        width: 2,
+        camber: '+',
+        speed: 1000,
+        dashed: true,
+        canvas: document.getElementById('js-canvas')
+    }
+
+    var curveElem = new curveBezier(100, 200, 0, 0);
+    document.body.appendChild(curveElem.getCanvas());
+
+    var t = setInterval(function() {
+        curveElem.draw();
+    }, 1000);
+
+</script>
+
+</html>

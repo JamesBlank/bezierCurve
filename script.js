@@ -7,22 +7,41 @@ function curveBezier(x1, y1, x2, y2, optionsUser) {
         speed: 800,      //time of drawing, [ms]
         dashed: false,
         camber: '-',
+        canvas: null,
         arrow: {
             length: 15,
             angle: .8   //angle between arrow "wings", [rad]
         }
     }
 
-    //offset from canvas corner to fit the arrow
+    //replacing default options with user settings
+    for (var key in optionsUser) {
+        if (key in options)
+            options[key] = optionsUser[key];
+    }
+
     var offset = 15;
 
+    //offset from canvas corner to fit the arrow
     var width = Math.abs(x2-x1)+offset;
     var height = Math.abs(y2-y1)+offset;
     var top = Math.min(x1, x2)-offset;
     var left = Math.min(y1, y2)-offset;
 
-    //canvas initialization
-    var canvas = document.createElement('canvas');
+    var canvas = null,
+        bezier = null;
+
+
+    if (options.canvas instanceof HTMLCanvasElement) {
+
+        // existed canvas
+        canvas = options.canvas;
+        bezier = options.canvas.getContext('2d');
+
+    } else {
+
+        //canvas initialization
+        canvas = document.createElement('canvas');
         canvas.id     = 'canvasBezier';
         canvas.width  = width;
         canvas.height = height;
@@ -31,13 +50,10 @@ function curveBezier(x1, y1, x2, y2, optionsUser) {
         canvas.style.left     = left+'px';
         canvas.style.zIndex   = 2;
 
-    //replacing default options with user settings
-    for (var key in optionsUser) {
-        if (key in options)
-            options[key] = optionsUser[key];
+        bezier = canvas.getContext('2d');
+
     }
 
-    var bezier = canvas.getContext('2d');
     bezier.lineWidth = options.width;
 
     //creating point class
@@ -58,8 +74,8 @@ function curveBezier(x1, y1, x2, y2, optionsUser) {
     var point_0 = new point(Math.abs(x1-top-dirX*offset),Math.abs(y1-left-dirY*offset));
     var point_2 = new point(Math.abs(x2-top-dirX*offset),Math.abs(y2-left-dirY*offset));
 
-    var Bx_prev = point_0.x;
-    var By_prev = point_0.y;
+    var Bx_prev = point_0.x;  //
+    var By_prev = point_0.y;  //
     var stepNum = 100;        //iteration number
     var t = 0;                //bezier function parameter
     var stepT = 1 / stepNum;  //bezier function parameter step
@@ -68,12 +84,15 @@ function curveBezier(x1, y1, x2, y2, optionsUser) {
     //curve camber
     var camberDegree = 0.2;
     if (options.camber == '+')
-        var point_1 = new point(canvas.width*Math.abs(dirX-(1-camberDegree)), canvas.height*Math.abs(dirY-camberDegree));
+        var point_1 = new point(width*Math.abs(dirX-(1-camberDegree)), height*Math.abs(dirY-camberDegree));
     else if (options.camber == '-')
-        var point_1 = new point(canvas.width*Math.abs(dirX-camberDegree), canvas.height*Math.abs(dirY-(1-camberDegree)));
+        var point_1 = new point(width*Math.abs(dirX-camberDegree), height*Math.abs(dirY-(1-camberDegree)));
 
+    var interval = null;
 
-    var interval = setInterval(draw, options.speed/stepNum);
+    this.draw = function() {
+        interval = setInterval(draw, options.speed/stepNum);
+    }
 
     function draw() {
         bezier.strokeStyle = options.color;
@@ -126,6 +145,20 @@ function curveBezier(x1, y1, x2, y2, optionsUser) {
         By_prev = By;
     }
 
-    return canvas;
+    this.getCanvas = function() {
+        return canvas;
+    }
 
 }
+
+
+
+function aaa() {
+
+    this.foo = null;
+
+    this.lal = function() {}
+
+}
+
+var bbb = aaa();

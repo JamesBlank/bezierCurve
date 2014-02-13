@@ -2,7 +2,7 @@
 
 ###Принцип работы:
 
-*Создается элемент canvas, на котором рисуется кривая Безье со стрелкой. Canvas абсолютно позиционирован относительно родителя. Выход скрипта  - объект canvas.*
+*Создается элемент canvas, на котором рисуется кривая Безье со стрелкой. Canvas абсолютно позиционирован относительно родителя.*
 
 
 ###Создание кривой:
@@ -22,7 +22,7 @@
             }
 
 
-###Пример:
+###Пример1:
     
     var options = {
         color: 'red',
@@ -32,9 +32,25 @@
         dashed: true
     }
 
-    canvas = new curveBezier(400, 100, 100, 400, options);
+    var curveElem = new curveBezier(100, 200, 0, 0, options);
 
-    document.body.appendChild(canvas);
+    document.body.appendChild(curveElem.getCanvas());
+    curveElem.draw();
+
+##Пример2:
+
+    var options = {
+            color: 'red',
+            width: 2,
+            camber: '+',
+            speed: 1000,
+            dashed: true,
+            canvas: document.getElementById('canvasId');
+        }
+
+    var curveElem = new curveBezier(100, 200, 0, 0, options);
+
+    curveElem.draw();
 
 
 В данном примере создается красная вогнутая пунктирная кривая толщиной 2 пикселя, время анимации которой 1000 мс.
