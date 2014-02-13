@@ -39,7 +39,7 @@
 
 В данном примере создается красная вогнутая пунктирная кривая толщиной 2 пикселя, время анимации которой 1000 мс.
 
-[Демо](http://jsfiddle.net/D4QZA/)
+[Демо](http://jsfiddle.net/D4QZA/2/)
 
 
 Данный скрипт распространяется по лицензии [Creative Commons license](http://creativecommons.org/licenses/by-sa/3.0/).
